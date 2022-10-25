@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Desc">
+        <meta name="author" content="Author">
+        <title>{% block title %}Readit{% endblock %}</title>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    </head>
+    <body>
+        {% block navbar %}
+            {% include 'layout/navbar.html' %}
+        {% endblock %}
+
+        <div class="container">
+            {% block content %}
+                <a>Readit App</a>
+            {% endblock %}
+        </div>
+
+        <script src="{% static "js/bootstrap.min.js" %}"></script>
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>
