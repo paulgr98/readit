@@ -3,4 +3,5 @@
 /Scripts
 pyvenv.cfg
 /.idea
+__pycache__
 db.sqlite3
