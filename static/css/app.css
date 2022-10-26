@@ -1,0 +1,34 @@
+.app-btn {
+    border-radius: 25px;
+}
+
+.sign-up-btn {
+    background-color: #ffffff;
+    color: #0079d3;
+    border: 1px solid #0079d3;
+    font-weight: bold;
+    height: 32px;
+    width: 120px;
+}
+
+.log-in-btn {
+    background-color: #0079d3;
+    color: #ffffff;
+    border: 1px solid #0079d3;
+    font-weight: bold;
+    height: 32px;
+    width: 120px;
+}
+
+.app-logo {
+    height: 40px;
+    width: 40px;
+}
+
+.app-navbar {
+    background-color: #ffffff;
+}
+
+body {
+    background-color: #dae0e6;
+}

@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class="container-fluid app-navbar p-2">
+    <div class="row">
+        <div class="col-9">
+            <div class="d-flex">
+                <img class="app-logo" src="{% static 'images/logo.png' %}"/>
+                <h3>
+                    readit  
+                </h3>
+            </div>
+        </div>
+        <div class="col-3">
+            <button class="app-btn sign-up-btn mx-3" type="submit">
+                <p>Sign Up<p>
+            </button>
+            <button class="app-btn log-in-btn" type="submit">
+                <p>Log In<p>
+            </button>
+        </div>
+    </div>
+</div>
