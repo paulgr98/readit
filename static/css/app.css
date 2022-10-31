@@ -11,6 +11,10 @@
     width: 120px;
 }
 
+.sign-up-btn:hover {
+    background-color: #97cef89d;
+}
+
 .log-in-btn {
     background-color: #0079d3;
     color: #ffffff;
@@ -20,15 +24,37 @@
     width: 120px;
 }
 
+.log-in-btn:hover {
+    background-color: #0089d3;
+}
+
 .app-logo {
-    height: 40px;
-    width: 40px;
+    height: 32px;
+    width: 32px;
 }
 
 .app-navbar {
-    background-color: #ffffff;
+    background-color: white;
 }
 
 body {
     background-color: #dae0e6;
+}
+
+.user-menu-btn {
+    height: 32px;
+    width: 80px;
+    border: 1px solid white !important;
+    color: #878a8c !important;
+}
+
+.user-menu-btn:hover {
+    border: 1px solid #edeff1 !important;
+    color: #878a8c !important;
+    border-radius: 5px !important;
+}
+
+.user-dropdown {
+    width: 300px !important;
+    border: 1px solid #edeff1 !important;
 }
