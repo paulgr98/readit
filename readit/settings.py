@@ -28,8 +28,19 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# -------------------------------------------------------------------------------------------- #
+#                           WARNING: please run the command below:                             #
+#                                                                                              #
+#                               pip install django_extensions                                  #
+#                                                                                              #
+#                           to install the django_extensions package.                          #
+#                           Database can be reset by running the commands below:               #
+#                                                                                              #
+#                              python manage.py reset_db --router=default                      #
+#                              python manage.py migrate                                        #
+# -------------------------------------------------------------------------------------------- #
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -124,8 +135,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS= [
-    BASE_DIR / 'static', 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
 ]
 
 # Default primary key field type
