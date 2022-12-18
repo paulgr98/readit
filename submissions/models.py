@@ -10,7 +10,7 @@ class Submission(models.Model):
     author = models.ForeignKey(ReaditUser, on_delete=models.CASCADE)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
-    text = models.TextField()
+    text = models.CharField(max_length=5000, blank=True, null=True)
     image_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
