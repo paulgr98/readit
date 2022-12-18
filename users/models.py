@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 
 class ReaditUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField(max_length=254, blank=True, null=True, unique=True)
     about_text = models.TextField(blank=True, null=True, max_length=500, help_text="Tell us about yourself",
                                   verbose_name="About", default="")
     avatar_url = models.URLField(blank=True, null=True, max_length=500,
@@ -18,4 +17,3 @@ class ReaditUser(models.Model):
 
     def __repr__(self):
         return self.user.username
-
