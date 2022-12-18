@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class ReaditUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    about_text = models.TextField(blank=True, null=True, max_length=500, help_text="Tell us about yourself",
+    about_text = models.CharField(blank=True, null=True, max_length=500, help_text="Tell us about yourself",
                                   verbose_name="About", default="")
     avatar_url = models.URLField(blank=True, null=True, max_length=500,
                                  verbose_name="Avatar URL", default="")
