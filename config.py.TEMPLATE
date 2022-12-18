@@ -1,0 +1,8 @@
+# To get client id and client secret,
+# go to https://www.reddit.com/prefs/apps
+# and create a new app.
+# Make sure to set the redirect uri to http://localhost:8080
+
+CLIENT_ID = ''
+CLIENT_SECRET = ''
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:7.0) Gecko/20170104 Firefox/35.0'
