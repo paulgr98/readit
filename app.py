@@ -25,7 +25,7 @@ class User(object):
         self.date_joined = None
 
 
-class ReaitUser(object):
+class ReaditUser(object):
     def __init__(self):
         self.user = User()
         self.about_text = None
@@ -75,7 +75,7 @@ async def generate_data(file_location):
         conn.commit()
 
 
-def generate_users(number_of_users: int) -> list[ReaitUser]:
+def generate_users(number_of_users: int) -> list[ReaditUser]:
     gen = faker.Faker()
     rdt_users = []
     start_id = 100
@@ -93,7 +93,7 @@ def generate_users(number_of_users: int) -> list[ReaitUser]:
         user.is_active = True
         user.date_joined = gen.date_time()
 
-        rdt_user = ReaitUser()
+        rdt_user = ReaditUser()
         rdt_user.user = user
         rdt_user.about_text = gen.text()
         rdt_user.avatar_url = gen.image_url()
@@ -112,7 +112,7 @@ def make_username(first_name: str, last_name: str) -> str:
     return username
 
 
-def add_users_to_db(users: list[ReaitUser], cursor: sqlite3.Cursor):
+def add_users_to_db(users: list[ReaditUser], cursor: sqlite3.Cursor):
     for user in users:
         command = f"INSERT INTO auth_user VALUES ({user.user.id}, '{user.user.password}', " \
                   f"'{user.user.last_login}', {user.user.is_superuser}, '{user.user.username}', " \
@@ -175,11 +175,13 @@ async def generate_submissions(number_of_submissions: int):
 
     return submissions
 
+
 def replace_bad_chars(text: str) -> str:
     text = text.replace("'", "")
     text = text.replace('"', "")
     text = text.encode('ascii', 'ignore').decode('ascii')
     return text
+
 
 def add_submissions_to_db(submissions: list[Submissions], cursor: sqlite3.Cursor):
     for submission in submissions:
