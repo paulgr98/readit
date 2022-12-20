@@ -2,7 +2,7 @@
 
 <div class="container-fluid app-navbar py-2">
     <div class="row">
-        <div class="col-9">
+        <div class="col-3">
             <div class="d-flex mx-2">
                 <img class="app-logo me-2" src="{% static 'images/logo.png' %}"/>
                 <h4 class="">
@@ -10,15 +10,24 @@
                 </h4>
             </div>
         </div>
-        <div class="col-3 d-flex justify-content-end">
+        <div class="col-4">
+            <div class="d-flex mx-2">
+                <form class="w-100">
+                    <div class="d-flex">
+                      <input type="text" class="form-control search-reddit-input" id="recipient-name" placeholder="Search Readit">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-5 d-flex justify-content-end">
             <button class="app-btn sign-up-btn mx-2" type="submit">
                 <a data-bs-toggle="modal" data-bs-target="#sign-up-modal">
-                    <p>Sign Up<p>
+                    <span>Sign Up</span>
                 </a>
             </button>
             <button class="app-btn log-in-btn">
                 <a data-bs-toggle="modal" data-bs-target="#log-in-modal">
-                    <p>Log In<p>
+                    <span>Log In</span>
                 </a>
             </button>
             <div class="btn-group mx-2">

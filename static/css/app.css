@@ -7,7 +7,7 @@
     color: #0079d3;
     border: 1px solid #0079d3;
     font-weight: bold;
-    height: 32px;
+    height: 38px;
     width: 120px;
 }
 
@@ -20,7 +20,7 @@
     color: #ffffff;
     border: 1px solid #ff4500;
     font-weight: bold;
-    height: 32px;
+    height: 38px;
     width: 120px;
 }
 
@@ -77,7 +77,6 @@ body {
     border-radius: 25px;
     background-color: #f6f7f8 !important;
     border: 1px solid #f6f7f8 !important;
-    border: none;
 }
 
 .login-register-modal-input:focus {
@@ -86,4 +85,19 @@ body {
 
 .login-register-modal-input:hover {
     border-color: gray !important;
+}
+
+.search-reddit-input {
+    height: 40px;
+    border-radius: 25px;
+    background-color: #f6f7f8 !important;
+    border: 1px solid gray !important;
+}
+
+.search-reddit-input:hover {
+    border-color: #0079d3 !important;
+}
+
+.search-reddit-input:focus {
+    box-shadow: none !important;
 }
