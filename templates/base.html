@@ -17,6 +17,10 @@
             {% include 'layout/navbar.html' %}
         {% endblock %}
 
+        {% block login %}
+            {% include 'public/login.html' %}
+        {% endblock %}
+
         <div class="container">
             {% block content %}
                 <a>Readit App</a>
