@@ -247,9 +247,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
-
-# q: How can I check my git config (username, email, etc.)?
-# a: git config --list
-
-# q: How can I change my git config?
-# a: git config --global user.name "John Doe"
