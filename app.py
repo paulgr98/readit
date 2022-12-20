@@ -42,7 +42,7 @@ class Subreadit(object):
         self.owner_id = None
 
 
-class Submissions(object):
+class Submission(object):
     def __init__(self):
         self.id = None
         self.title = None
@@ -53,6 +53,17 @@ class Submissions(object):
         self.author_id = None
         self.subreadit_id = None
         self.text = None
+
+
+class Comment(object):
+    def __init__(self):
+        self.id = None
+        self.created_at = None
+        self.upvotes = None
+        self.downvotes = None
+        self.submission_id = None
+        self.user_id = None
+        self.content = None
 
 
 async def generate_data(file_location):
@@ -70,7 +81,11 @@ async def generate_data(file_location):
 
         submissions = await generate_submissions(100)
         add_submissions_to_db(submissions, c)
-        print("Submissions added to database")
+        print("Submission added to database")
+
+        comments = generate_n_comments_for_submissions(10, submissions)
+        add_comments_to_db(comments, c)
+        print("Comments added to database")
 
         conn.commit()
 
@@ -160,7 +175,7 @@ async def generate_submissions(number_of_submissions: int):
 
         start_id = 100
         async for i, post in a.enumerate(posts, start=start_id):
-            submission = Submissions()
+            submission = Submission()
             submission.id = i
             submission.title = replace_bad_chars(post.title)
             submission.upvotes = post.score
@@ -183,12 +198,40 @@ def replace_bad_chars(text: str) -> str:
     return text
 
 
-def add_submissions_to_db(submissions: list[Submissions], cursor: sqlite3.Cursor):
+def add_submissions_to_db(submissions: list[Submission], cursor: sqlite3.Cursor):
     for submission in submissions:
         command = f"INSERT INTO submissions_submission VALUES ({submission.id}, '{submission.title}', " \
                   f"{submission.upvotes}, {submission.downvotes}, '{submission.image_url}', " \
                   f"'{submission.created_at}', {submission.author_id}, {submission.subreadit_id}, " \
                   f"'{submission.text if submission.text else ' '}')"
+        cursor.execute(command)
+
+
+def generate_n_comments_for_submissions(num_of_comments: int, submissions: list[Submission]) -> list[Comment]:
+    gen = faker.Faker()
+    comments = []
+    comment_id = 100
+    for sub in submissions:
+        for _ in range(num_of_comments):
+            comment = Comment()
+            comment.id = comment_id
+            comment.created_at = gen.date_time()
+            comment.upvotes = random.randint(0, 100)
+            comment.downvotes = random.randint(0, 10)
+            comment.submission_id = sub.id
+            comment.user_id = random.randint(100, 109)
+            comment.content = gen.text()
+
+            comments.append(comment)
+            comment_id += 1
+    return comments
+
+
+def add_comments_to_db(comments: list[Comment], cursor: sqlite3.Cursor):
+    for comment in comments:
+        command = f"INSERT INTO comments_comment VALUES ({comment.id}, '{comment.created_at}', " \
+                  f"{comment.upvotes}, {comment.downvotes}, {comment.submission_id}, " \
+                  f"{comment.user_id}, '{comment.content}')"
         cursor.execute(command)
 
 
@@ -204,3 +247,9 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
+
+# q: How can I check my git config (username, email, etc.)?
+# a: git config --list
+
+# q: How can I change my git config?
+# a: git config --global user.name "John Doe"
