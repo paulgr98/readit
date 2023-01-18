@@ -18,5 +18,5 @@ from django.urls import re_path
 from . import views
 
 urlpatterns = [
-    re_path(r'^$', views.mainpage, name="mainpage"),
+    re_path(r'^$', views.main_page_view, name="mainpage"),
 ]
