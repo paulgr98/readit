@@ -95,7 +95,6 @@ function downvote(submissionId) {
     }
 
     if (upvoteArrow.classList.contains('upvote-clicked')) {
-        upvoteArrow.classList.remove('upvote-clicked');
         handle_upvote_unclick({
             submissionId: submissionId,
             upvoteArrow: upvoteArrow,
