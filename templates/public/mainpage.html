@@ -21,16 +21,12 @@
                             <div>
                                 <form action="{% url 'upvote' submission.id %}" method="post">
                                     {% csrf_token %}
-                                    <button class="text-success" type="submit" onclick="upvote({{submission.id}})">
-                                        <i class="fas fa-arrow-up"></i>
-                                    </button>
+                                    <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow" onclick="upvote({{submission.id}})"></i>
                                 </form>
                                 <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
                                 <form action="{% url 'downvote' submission.id %}" method="post">
                                     {% csrf_token %}
-                                    <button class="text-danger" type="submit" onclick="downvote({{submission.id}})">
-                                        <i class="fas fa-arrow-down"></i>
-                                    </button>
+                                    <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow" onclick="downvote({{submission.id}})"></i>
                                 </form>
                             </div>
                         </div>
@@ -60,33 +56,85 @@
     function upvote(submissionId) {
         event.preventDefault();
         const csrftoken = document.querySelector("[name='csrfmiddlewaretoken']").value;
-        fetch('/upvote/' + submissionId + '/', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken
-            },
-            body: JSON.stringify({
-                'submission_id': submissionId
+
+        const upvoteArrow = document.querySelector('.upvote-arrow-' + submissionId);
+        const downvoteArrow = document.querySelector('.downvote-arrow-' + submissionId);
+        const upvoteCountElement = document.querySelector('.upvote-counter-' + submissionId)
+
+        if(upvoteArrow.classList.contains('upvote-clicked')){
+            upvoteArrow.classList.remove('upvote-clicked');
+            fetch('/upvote_unclicked/' + submissionId + '/', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({
+                    'submission_id': submissionId
+                })
             })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json()
-        })
-        .then(data => {
-            if (data.status === 'success') {
-                const upvoteCountElement = document.querySelector('.upvote-counter-' + submissionId)
-                let currentCount = parseInt(upvoteCountElement.textContent)
-                upvoteCountElement.textContent = `${currentCount + 1}`
-            }
-        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json()
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    let currentCount = parseInt(upvoteCountElement.textContent)
+                    upvoteCountElement.textContent = `${currentCount - 1}`
+                }
+            })
+        }
+        else {
+            upvoteArrow.classList.add('upvote-clicked');
+            fetch('/upvote/' + submissionId + '/', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({
+                    'submission_id': submissionId
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json()
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    let currentCount = parseInt(upvoteCountElement.textContent)
+                    upvoteCountElement.textContent = `${currentCount + 1}`
+                }
+            })
+        }
+
+        if(downvoteArrow.classList.contains('downvote-clicked')){
+            downvoteArrow.classList.remove('downvote-clicked');
+        }
     }
     function downvote(submissionId) {
         event.preventDefault();
         const csrftoken = document.querySelector("[name='csrfmiddlewaretoken']").value;
+
+        const downvoteArrow = document.querySelector('.downvote-arrow-' + submissionId);
+        const upvoteArrow = document.querySelector('.upvote-arrow-' + submissionId);
+
+        if(downvoteArrow.classList.contains('downvote-clicked')){
+            downvoteArrow.classList.remove('downvote-clicked');
+        } else {
+            downvoteArrow.classList.add('downvote-clicked');
+        }
+
+        increment = 0;
+        if(upvoteArrow.classList.contains('upvote-clicked')){
+            upvoteArrow.classList.remove('upvote-clicked');
+            increment = -1;
+        }
+
         fetch('/downvote/' + submissionId + '/', {
             method: 'post',
             headers: {
@@ -100,11 +148,9 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                const downvoteCountElement = document.querySelector('.downvote-counter-' + submissionId)
-                console.log(downvoteCountElement)
-                let currentCount = parseInt(downvoteCountElement.textContent)
-                downvoteCountElement.textContent = `${currentCount + 1}`
-
+                const upvoteCountElement = document.querySelector('.upvote-counter-' + submissionId)
+                let currentCount = parseInt(upvoteCountElement.textContent)
+                upvoteCountElement.textContent = `${currentCount + increment}`
             }
         })
     }

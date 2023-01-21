@@ -15,6 +15,16 @@ def upvote(request, submission_id):
         submission.upvotes += 1
         submission.save()
         return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'})
+
+
+def upvote_unclicked(request, submission_id):
+    if request.method == 'POST':
+        submission = Submission.objects.get(id=submission_id)
+        submission.upvotes -= 1
+        submission.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'})
 
 
 def downvote(request, submission_id):
@@ -23,3 +33,4 @@ def downvote(request, submission_id):
         submission.downvotes += 1
         submission.save()
         return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'})

@@ -22,6 +22,7 @@ from main.views import upvote, downvote
 
 urlpatterns = [
     path('upvote/<submission_id>/', views.upvote, name='upvote'),
+    path('upvote_unclicked/<submission_id>/', views.upvote_unclicked, name='upvote_unclicked'),
     path('downvote/<submission_id>/', views.downvote, name='downvote'),
     re_path(r'^$', views.main_page_view, name="mainpage"),
 ]
