@@ -7,39 +7,107 @@
     readit
 </div>
 
+<script>
+    let submissionId;
+</script>
+
 <div class="card-columns">
     {% for submission in submissions %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                <div class="card my-3">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <div>
-                            <i class="fas fa-arrow-up"></i>
-                            <span class="badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
-                            <i class="fas fa-arrow-down"></i>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card my-3">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div>
+                                <form action="{% url 'upvote' submission.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="text-success" type="submit" onclick="upvote({{submission.id}})">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </button>
+                                </form>
+                                <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
+                                <form action="{% url 'downvote' submission.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="text-danger" type="submit" onclick="downvote({{submission.id}})">
+                                        <i class="fas fa-arrow-down"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <h6 class="card-text">r/{{ submission.subreadit }} :
-                            <span class="card-subtitle mb-2 text-muted">u/{{ submission.author }}</span> :
-                            <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
-                        </h6>
-                        <h5 class="card-title">{{ submission.title }}</h5>
-                        <p class="card-text">{{ submission.text }}</p>
-                        <img src="{{ submission.image_url }}" alt="" class="img-fluid">
-                    </div>
-                    <div class="card-footer d-flex align-items-center">
-                        <a href="#" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-comment"></i>
-                            Comments
-                        </a>
+                        <div class="card-body">
+                            <h6 class="card-text">r/{{ submission.subreadit }} :
+                                <span class="card-subtitle mb-2 text-muted">u/{{ submission.author }}</span> :
+                                <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
+                            </h6>
+                            <h5 class="card-title">{{ submission.title }}</h5>
+                            <p class="card-text">{{ submission.text }}</p>
+                            <img src="{{ submission.image_url }}" alt="" class="img-fluid">
+                        </div>
+                        <div class="card-footer d-flex align-items-center">
+                            <a href="#" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-comment"></i>
+                                Comments
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endfor %}
 </div>
+
+<script>
+    function upvote(submissionId) {
+        event.preventDefault();
+        const csrftoken = document.querySelector("[name='csrfmiddlewaretoken']").value;
+        fetch('/upvote/' + submissionId + '/', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                'submission_id': submissionId
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json()
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                const upvoteCountElement = document.querySelector('.upvote-counter-' + submissionId)
+                let currentCount = parseInt(upvoteCountElement.textContent)
+                upvoteCountElement.textContent = `${currentCount + 1}`
+            }
+        })
+    }
+    function downvote(submissionId) {
+        event.preventDefault();
+        const csrftoken = document.querySelector("[name='csrfmiddlewaretoken']").value;
+        fetch('/downvote/' + submissionId + '/', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                'submission_id': submissionId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const downvoteCountElement = document.querySelector('.downvote-counter-' + submissionId)
+                console.log(downvoteCountElement)
+                let currentCount = parseInt(downvoteCountElement.textContent)
+                downvoteCountElement.textContent = `${currentCount + 1}`
+
+            }
+        })
+    }
+</script>
 
 {% endblock %}

@@ -15,8 +15,13 @@ Including another URLconf
 """
 
 from django.urls import re_path
+from django.urls import path
 from . import views
+from main.views import upvote, downvote
+
 
 urlpatterns = [
+    path('upvote/<submission_id>/', views.upvote, name='upvote'),
+    path('downvote/<submission_id>/', views.downvote, name='downvote'),
     re_path(r'^$', views.main_page_view, name="mainpage"),
 ]
