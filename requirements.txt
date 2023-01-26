@@ -3,3 +3,5 @@ faker==16.6.1
 asyncpraw==7.6.1
 asyncprawcore==2.3.0
 asyncio==3.4.3
+passlib==1.7.4
+asyncstdlib==3.10.5
