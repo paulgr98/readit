@@ -594,3 +594,4 @@ $RECYCLE.BIN/
 /Scripts
 /.idea
 __pycache__
+config.py
