@@ -17,7 +17,7 @@ Including another URLconf
 from django.urls import re_path
 from django.urls import path
 from . import views
-
+from submissions.views import create_submission
 
 urlpatterns = [
     path('upvote/<submission_id>/', views.upvote, name='upvote'),
@@ -25,4 +25,5 @@ urlpatterns = [
     path('downvote/<submission_id>/', views.downvote, name='downvote'),
     path('<int:submission_id>/comments/', views.comments_view, name='comments'),
     re_path(r'^$', views.main_page_view, name="mainpage"),
+    re_path('submit', create_submission, name='submit')
 ]

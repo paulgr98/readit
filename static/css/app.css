@@ -101,3 +101,30 @@ body {
 .search-reddit-input:focus {
     box-shadow: none !important;
 }
+
+.create-submission-input:hover {
+    border-color: gray !important;
+}
+
+.create-submission-input:focus {
+    box-shadow: none !important;
+    border-color: gray !important;
+}
+
+.white-hr {
+    background-color: white;
+    height: 1px;
+}
+
+.create-submission-btn {
+    background-color: #ff4500;
+    color: #ffffff;
+    border: 1px solid #ff4500;
+    font-weight: bold;
+    height: 38px;
+    width: 60px;
+}
+
+.create-submission-btn:hover {
+    background-color: #db3a00;
+}

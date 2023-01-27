@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'users',
     'subreadits',
     'submissions',
-    'comments'
+    'comments',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [

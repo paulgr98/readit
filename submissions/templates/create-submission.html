@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="col-6">
+        <h5>Create a post</h4>
+        <p class="white-hr my-3" style="height:1px"></p>
+        <form class="p-4 bg-white rounded-1 border-0" method="post">
+            {% csrf_token %}
+            
+            {% for hidden_field in form.hidden_fields %}
+              {{ hidden_field }}
+            {% endfor %}
+          
+            {% for field in form.visible_fields %}
+              <div class="form-group">
+                {{ field.label_tag }}
+                {% render_field field class="form-control create-submission-input my-3" %}
+                {% if field.help_text %}
+                  <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+              </div>
+            {% endfor %}
+            
+            <hr/>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="app-btn create-submission-btn">Post</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
