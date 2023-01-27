@@ -23,5 +23,6 @@ urlpatterns = [
     path('upvote/<submission_id>/', views.upvote, name='upvote'),
     path('upvote_unclicked/<submission_id>/', views.upvote_unclicked, name='upvote_unclicked'),
     path('downvote/<submission_id>/', views.downvote, name='downvote'),
+    path('<int:submission_id>/comments/', views.comments_view, name='comments'),
     re_path(r'^$', views.main_page_view, name="mainpage"),
 ]
