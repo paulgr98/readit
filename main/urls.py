@@ -17,12 +17,13 @@ Including another URLconf
 from django.urls import re_path
 from django.urls import path
 from . import views
-
+from subreadits import views as sub_views
 
 urlpatterns = [
     path('upvote/<submission_id>/', views.upvote, name='upvote'),
     path('upvote_unclicked/<submission_id>/', views.upvote_unclicked, name='upvote_unclicked'),
     path('downvote/<submission_id>/', views.downvote, name='downvote'),
     path('<int:submission_id>/comments/', views.comments_view, name='comments'),
+    path('r/<str:name>/', sub_views.subreadit_view, name='subreadit'),
     re_path(r'^$', views.main_page_view, name="mainpage"),
 ]
