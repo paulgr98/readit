@@ -27,6 +27,7 @@
                                 u/{{ moderator }},
                             {% endfor %}
                         </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,7 +58,7 @@
                         <div class="card-body">
                             <h6 class="card-text">
                                 r/{{ submission.subreadit }} :
-                                <span class="card-subtitle mb-2 text-muted">u/{{ submission.author }}</span> :
+                                <a href="/user/{{ submission.author }}" class="card-subtitle mb-2 text-decoration-none text-dark">u/{{ submission.author }}</a> :
                                 <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
                             </h6>
                             <h5 class="card-title">{{ submission.title }}</h5>

@@ -8,6 +8,31 @@
     readit
 </div>
 
+<div class="card-columns">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card my-3">
+                    <div class="card-header text-center d-flex">
+                        <div class="col-2">
+                            <img src="{{ user.avatar_url }}" alt="avatar" class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
+                        </div>
+                        <div class="col-8 align-self-center">
+                            <h2>u/{{ user.user }}</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ user.about_text }}</p>
+                        <p>Karma: {{ user.karma }}</p>
+                        <p>Cake day: {{ user.user.date_joined|date:"d.m.Y" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="{% static '/js/votes.js' %}"></script>
 
 <div class="card-columns">
@@ -32,7 +57,7 @@
                         <div class="card-body">
                             <h6 class="card-text">
                                 <a href="/r/{{ submission.subreadit }}" class="text-decoration-none text-dark">r/{{ submission.subreadit }}</a> :
-                                <a href="/user/{{ submission.author }}" class="card-subtitle mb-2 text-decoration-none text-dark">u/{{ submission.author }}</a> :
+                                <span class="card-subtitle mb-2 text-muted">u/{{ submission.author }}</span> :
                                 <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
                             </h6>
                             <h5 class="card-title">{{ submission.title }}</h5>
