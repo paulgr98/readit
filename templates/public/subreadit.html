@@ -4,8 +4,30 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-center mt-3">
-    <a class="btn btn-primary" href="/submit">Create a Post</a>
+<div class="card-columns">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card my-3">
+                    <div class="card-header text-center">
+                        <h2>r/{{ subreadit.name }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ subreadit.description }}</p>
+                        <div>
+                            <p><strong>Owner:</strong> u/{{ subreadit.owner }}</p>
+                            <p><strong>Created at:</strong> {{ subreadit.created_at|date:"d.m.Y"}}</p>
+                        </div>
+                        <p><strong>Moderators:</strong>
+                            {% for moderator in subreadit.moderators.all %}
+                                u/{{ moderator }},
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="{% static '/js/votes.js' %}"></script>
@@ -31,7 +53,7 @@
                         </div>
                         <div class="card-body">
                             <h6 class="card-text">
-                                <a href="/r/{{ submission.subreadit }}" class="text-decoration-none text-dark">r/{{ submission.subreadit }}</a> :
+                                r/{{ submission.subreadit }} :
                                 <a href="/user/{{ submission.author }}" class="card-subtitle mb-2 text-decoration-none text-dark">u/{{ submission.author }}</a> :
                                 <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
                             </h6>

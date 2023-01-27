@@ -17,6 +17,8 @@ Including another URLconf
 from django.urls import re_path
 from django.urls import path
 from . import views
+from subreadits import views as sub_views
+from users import views as user_views 
 from submissions.views import create_submission
 
 urlpatterns = [
@@ -24,6 +26,8 @@ urlpatterns = [
     path('upvote_unclicked/<submission_id>/', views.upvote_unclicked, name='upvote_unclicked'),
     path('downvote/<submission_id>/', views.downvote, name='downvote'),
     path('<int:submission_id>/comments/', views.comments_view, name='comments'),
+    path('r/<str:name>/', sub_views.subreadit_view, name='subreadit'),
+    path('user/<str:username>/', user_views.profile_view, name='profile'),
     re_path(r'^$', views.main_page_view, name="mainpage"),
     re_path('submit', create_submission, name='submit')
 ]
