@@ -14,11 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import re_path
 from django.urls import path
 from . import views
 from subreadits import views as sub_views
-from users import views as user_views 
+from users import views as user_views
 from submissions.views import create_submission
 
 urlpatterns = [
@@ -28,6 +27,8 @@ urlpatterns = [
     path('<int:submission_id>/comments/', views.comments_view, name='comments'),
     path('r/<str:name>/', sub_views.subreadit_view, name='subreadit'),
     path('user/<str:username>/', user_views.profile_view, name='profile'),
-    re_path(r'^$', views.main_page_view, name="mainpage"),
-    re_path('submit', create_submission, name='submit')
+    path('', views.main_page_view, name="mainpage"),
+    path('submit', create_submission, name='submit'),
+    path('sign-in', user_views.sign_in, name='sign-in'),
+    path('sign-out', user_views.sign_out, name='sign-out')
 ]

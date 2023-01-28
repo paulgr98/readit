@@ -1,12 +1,23 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.contrib.auth import authenticate
 from submissions.models import Submission
 from comments.models import Comment
-
+from users.models import ReaditUser
 
 def main_page_view(request):
+    readit_user = None
+    try:
+        readit_user = ReaditUser.objects.get(id=request.user.id)
+    except:
+        pass
+
     submissions = Submission.objects.all()
-    context = {'submissions': submissions}
+    context = {
+        'submissions': submissions,
+        'readit_user': readit_user 
+    }
+
     return render(request, 'public/mainpage.html', context)
 
 

@@ -1,0 +1,48 @@
+<div class="modal fade" id="sign-in-modal" tabindex="-1" aria-labelledby="sign-in-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content sign-in-up-modal">
+      <div class="d-flex justify-content-end p-3">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="p-4 mx-4">
+        <div class="modal-header mb-3">
+            <div>
+                <h4 class="modal-title mb-2" id="signInModalLabel">Sign In</h4>
+                <small>
+                    By continuing, you agree are setting up a Readit account and agree to our 
+                    <a href="#">User Agreement</a> and <a href="#">Privacy Policy</a>. 
+                </small>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form id="sign-in-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <input type="text" class="form-control sign-in-up-modal-input" name="username" placeholder="Username">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control sign-in-up-modal-input" name="password" placeholder="Password">
+                </div>
+                <div class="mb-3">
+                  <small>
+                      Forget your <a href="#" class="fw-bold">username</a> or <a href="#" class="fw-bold">password</a>?
+                  </small>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <button id="sign-in-btn" type="button" class="app-btn sign-in-btn modal-sign-in-btn">Sign In</button>
+                </div>
+                <div class="w-100 my-3">
+                    <small>
+                        New to Readit? <a href="#" data-bs-toggle="modal" data-bs-target="#sign-up-modal" class="fw-bold">Sign Up</a>
+                    </small>
+                </div>
+                <div>
+                  <p id="sign-in-error-message" class="text-danger" hidden>Error</p>
+                </div>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+  

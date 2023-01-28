@@ -15,7 +15,7 @@
     background-color: #97cef89d;
 }
 
-.log-in-btn {
+.sign-in-btn {
     background-color: #ff4500;
     color: #ffffff;
     border: 1px solid #ff4500;
@@ -24,11 +24,11 @@
     width: 120px;
 }
 
-.log-in-btn:hover {
+.sign-in-btn:hover {
     background-color: #db3a00;
 }
 
-.modal-log-in-btn {
+.modal-sign-in-btn {
     width: 300px;
     height: 40px;
 }
@@ -47,8 +47,7 @@ body {
 }
 
 .user-menu-btn {
-    height: 32px;
-    width: 80px;
+    height: 40px;
     border: 1px solid white !important;
     color: #878a8c !important;
 }
@@ -59,12 +58,20 @@ body {
     border-radius: 5px !important;
 }
 
+.annonymous-user-menu-btn {
+    width: 70px;
+}
+
+.signed-in-user-menu-btn {
+    width: 180px;
+}
+
 .user-dropdown {
     width: 300px !important;
     border: 1px solid #edeff1 !important;
 }
 
-.login-modal {
+.sign-in-up-modal {
     width: 400px;
 }
 
@@ -72,18 +79,18 @@ body {
     justify-content: center !important;
 }
 
-.login-register-modal-input {
+.sign-in-up-modal-input {
     height: 45px;
     border-radius: 25px;
     background-color: #f6f7f8 !important;
     border: 1px solid #f6f7f8 !important;
 }
 
-.login-register-modal-input:focus {
+.sign-in-up-modal-input:focus {
     box-shadow: none !important;
 }
 
-.login-register-modal-input:hover {
+.sign-in-up-modal-input:hover {
     border-color: gray !important;
 }
 
@@ -127,4 +134,17 @@ body {
 
 .create-submission-btn:hover {
     background-color: #db3a00;
+}
+
+.user-avatar-small {
+    height: 25px;
+    width: 25px;
+    border-radius: 5px;
+}
+
+.username-small {
+    color: black !important;
+    height: 12px;
+    font-size: 12px;
+    margin: 0;
 }
