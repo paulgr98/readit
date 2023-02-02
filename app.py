@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import sqlite3
 import faker
 import random
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
 import asyncpraw
 import asyncstdlib as a
@@ -94,6 +95,7 @@ def generate_users(number_of_users: int) -> list[ReaditUser]:
     gen = faker.Faker()
     rdt_users = []
     start_id = 100
+    settings.configure()
     for i in range(start_id, start_id + number_of_users):
         user = User()
         user.id = i
