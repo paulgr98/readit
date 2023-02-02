@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import sqlite3
 import faker
 import random
-from passlib.hash import pbkdf2_sha256
+from django.contrib.auth.hashers import make_password
 import asyncpraw
 import asyncstdlib as a
 import asyncio
@@ -97,7 +97,7 @@ def generate_users(number_of_users: int) -> list[ReaditUser]:
     for i in range(start_id, start_id + number_of_users):
         user = User()
         user.id = i
-        user.password = pbkdf2_sha256.hash("password")[1:]
+        user.password = make_password('password')
         user.last_login = gen.date_time()
         user.is_superuser = False
         user.first_name = gen.first_name()
