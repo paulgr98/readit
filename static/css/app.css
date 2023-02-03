@@ -148,3 +148,30 @@ body {
     font-size: 12px;
     margin: 0;
 }
+
+img{
+    width: 400px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+h6{
+    font-size: 12px;
+}
+
+.upvote-clicked{
+    color: #ff4500;
+}
+
+.downvote-clicked{
+    color: #0000ff;
+}
+
+.upvote-arrow:hover{
+    color: #FF8b60;
+}
+
+.downvote-arrow:hover{
+    color: #9494FF;
+}
