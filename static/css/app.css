@@ -36,6 +36,7 @@
 .app-logo {
     height: 32px;
     width: 32px;
+    margin: 0;
 }
 
 .app-navbar {
@@ -123,6 +124,11 @@ body {
     height: 1px;
 }
 
+.gray-hr {
+    background-color: #c6c7c8;
+    height: 1px;
+}
+
 .create-submission-btn {
     background-color: #ff4500;
     color: #ffffff;
@@ -199,4 +205,12 @@ h6{
     position: absolute;
     top: 14px;
     left: 16px;
+}
+
+.create-submission-rules-card {
+    height: 340px;
+}
+
+.readit-blue-font {
+    color: #0079d3;
 }
