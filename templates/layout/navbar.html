@@ -1,9 +1,9 @@
 {% load static %}
 
-<div class="container-fluid app-navbar py-2">
+<div class="container-fluid app-navbar py-1">
     <div class="row">
         <div class="col-3">
-            <div class="d-flex mx-2">
+            <div class="d-flex mt-1">
                 <a class="text-decoration-none text-dark d-flex mx-2" href="{% url 'mainpage' %}">
                     <img class="app-logo me-2" src="{% static 'images/logo.png' %}" alt="logo"/>
                     <h4 class="">
@@ -15,23 +15,24 @@
         <div class="col-4">
             <div class="d-flex mx-2">
                 <form class="w-100">
-                    <div class="d-flex">
-                      <input type="text" class="form-control search-reddit-input" id="recipient-name" placeholder="Search Readit">
+                    <div class="search-container">
+                      <i class="fa fa-search text-secondary"></i>
+                      <input type="text" class="form-control search-reddit-input" placeholder="Search Readit">
                     </div>
                 </form>
             </div>
         </div>
         <div class="col-5 d-flex justify-content-end">
             {% if request.user.is_authenticated %}
-                <button class="app-btn sign-up-btn sign-out-btn mx-2">Sign out</button>
+                <button class="app-btn sign-up-btn sign-out-btn mx-2 mt-1">Sign out</button>
                 <form id="sign-out-form">{% csrf_token %}</form>
             {% else %}
-                <button class="app-btn sign-up-btn mx-2" type="submit">
+                <button class="app-btn sign-up-btn mx-2 mt-1" type="submit">
                     <a data-bs-toggle="modal" data-bs-target="#sign-up-modal">
                         <span>Sign Up</span>
                     </a>
                 </button>
-                <button class="app-btn sign-in-btn">
+                <button class="app-btn sign-in-btn mt-1">
                     <a data-bs-toggle="modal" data-bs-target="#sign-in-modal">
                         <span>Sign In</span>
                     </a>
@@ -50,13 +51,13 @@
                             <img class="user-avatar-small" src="{{ readit_user.avatar_url }}" />
                             <div class="me-5">
                                 <p class="username-small ms-1 fw-bold">{{ request.user.username }}</p>
-                                <p class="username-small ms-1">{{ readit_user.karma }} karma</p>
+                                <p class="karma-small ms-1">{{ readit_user.karma }} karma</p>
                             </div>
                         </div>
                     {% else %}
                         <i class="far fa-user mx-1 mt-1"></i>
                     {% endif %}
-                    <i class="fas fa-chevron-down mt-1 ms-2"></i>
+                    <i class="fas fa-chevron-down mt-1"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-lg-end user-dropdown">
                   <li>

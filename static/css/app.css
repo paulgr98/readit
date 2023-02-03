@@ -7,7 +7,7 @@
     color: #0079d3;
     border: 1px solid #0079d3;
     font-weight: bold;
-    height: 38px;
+    height: 32px;
     width: 120px;
 }
 
@@ -20,7 +20,7 @@
     color: #ffffff;
     border: 1px solid #ff4500;
     font-weight: bold;
-    height: 38px;
+    height: 32px;
     width: 120px;
 }
 
@@ -47,7 +47,7 @@ body {
 }
 
 .user-menu-btn {
-    height: 40px;
+    height: 38px;
     border: 1px solid white !important;
     color: #878a8c !important;
 }
@@ -98,7 +98,7 @@ body {
     height: 40px;
     border-radius: 25px;
     background-color: #f6f7f8 !important;
-    border: 1px solid gray !important;
+    border: 1px solid #E8E8E8 !important;
 }
 
 .search-reddit-input:hover {
@@ -147,6 +147,17 @@ body {
     height: 12px;
     font-size: 12px;
     margin: 0;
+    position: relative;
+    bottom: 6px;
+}
+
+.karma-small {
+    color: #878a8c !important;
+    height: 12px;
+    font-size: 12px;
+    margin: 0;
+    position: relative;
+    bottom: 3px;
 }
 
 img{
@@ -174,4 +185,18 @@ h6{
 
 .downvote-arrow:hover{
     color: #9494FF;
+}
+
+.search-container {
+    position: relative;   
+}
+
+.search-container input{
+    text-indent: 25px;
+}
+
+.search-container .fa-search{
+    position: absolute;
+    top: 14px;
+    left: 16px;
 }
