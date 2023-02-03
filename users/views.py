@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from .models import ReaditUser
 from submissions.models import Submission
 
@@ -27,4 +28,22 @@ def sign_out(request):
         logout(request)
     except:
         return HttpResponse(status=400)
+    return HttpResponse(status=200)
+
+def sign_up(request):
+    username = request.POST['username']
+    if User.objects.filter(username=username).exists():
+        return HttpResponse(status=400, content="User with provided username already exists")
+
+    email = request.POST['email']
+    if User.objects.filter(email=email).exists():
+        return HttpResponse(status=400, content="User with provided email already exists")
+
+    password = request.POST['password']
+    user = User.objects.create_user(username, email, password)
+    user.save()
+
+    readit_user = ReaditUser(user=user)
+    readit_user.save()
+
     return HttpResponse(status=200)

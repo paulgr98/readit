@@ -38,3 +38,36 @@ $(document).ready(function () {
         }
     });
 });
+
+$(document).ready(function () {
+    $('#sign-up-btn').click(function () {
+        const signUpForm = $('#sign-up-form');
+        const signUpError = $('#sign-up-error-message');
+        const password = $('#sign-up-password').val();
+        const confirmPassword = $('#sign-up-confirm-password').val();
+        console.log(password);
+        console.log(confirmPassword);
+        if(password !== confirmPassword) {
+            signUpError.attr('hidden', false);
+            signUpError.text('Passwords do not match.');
+            return;
+        }
+
+        $.ajax({
+            url: '/sign-up',
+            type: 'POST',
+            data: signUpForm.serialize(),
+            success: function() {
+                signUpForm[0].reset();
+                signUpError.attr('hidden', true);
+                signUpError.text('');
+                confirm('Readit account created successfully. Now you can sign in.');
+                window.location.href = '/';
+            },
+            error: function(xhr) {
+                signUpError.attr('hidden', false);
+                signUpError.text(xhr.responseText);
+            }
+        })
+    });
+});

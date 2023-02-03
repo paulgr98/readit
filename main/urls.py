@@ -30,5 +30,6 @@ urlpatterns = [
     path('', views.main_page_view, name="mainpage"),
     path('submit', create_submission, name='submit'),
     path('sign-in', user_views.sign_in, name='sign-in'),
-    path('sign-out', user_views.sign_out, name='sign-out')
+    path('sign-out', user_views.sign_out, name='sign-out'),
+    path('sign-up', user_views.sign_up, name='sign-up')
 ]
