@@ -4,8 +4,11 @@
 
 {% block content %}
 
-<div>
-    <h1 class="text-danger text-center">Not found!</h1>
+<div class="d-flex justify-content-center align-content-center mt-5">
+    <div>
+        <h1 class="text-center mb-3">Resource has not been found!</h1>
+        <img class="img-fluid rounded-5" src={% static 'images/error-image.jpg' %} />
+    </div>
 </div>
 
 {% endblock %}

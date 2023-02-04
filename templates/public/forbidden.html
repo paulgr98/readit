@@ -4,8 +4,11 @@
 
 {% block content %}
 
-<div>
-    <h1 class="text-danger text-center">Forbidden!</h1>
+<div class="d-flex justify-content-center align-content-center mt-5">
+    <div>
+        <h1 class="text-center mb-3">You do not have access to view this resource!</h1>
+        <img class="img-fluid rounded-5" src={% static 'images/error-image.jpg' %} />
+    </div>
 </div>
 
 {% endblock %}
