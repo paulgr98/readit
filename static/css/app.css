@@ -214,3 +214,29 @@ h6{
 .readit-blue-font {
     color: #0079d3;
 }
+
+.create-post-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin: 0;
+}
+
+.create-submission-card {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+#create-submission-card-input {
+    background-color: #f6f7f8 !important;
+    border: 1px solid #E8E8E8 !important;
+    border-radius: 5px;
+}
+
+#create-submission-card-input:hover {
+    border-color: #0079d3 !important;
+}
+
+#create-submission-card-input:focus {
+    box-shadow: none !important;
+}

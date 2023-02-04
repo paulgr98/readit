@@ -4,11 +4,17 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-center mt-3">
-    <a class="btn btn-primary" href="/submit">Create a Post</a>
-</div>
-
+<script src="{% static '/js/common.js' %}"></script>
 <script src="{% static '/js/votes.js' %}"></script>
+
+{% if request.user.is_authenticated %}
+    <div class="d-flex justify-content-center px-4 mt-3">
+        <div class="d-flex col-6 p-2 bg-white create-submission-card">
+            <img class="create-post-avatar me-2" src="{{ readit_user.avatar_url }}" />
+            <input id="create-submission-card-input" class="form-control w-100" type="text" placeholder="Create Post" />
+        </div>
+    </div>
+{% endif %}
 
 <div class="card-columns">
     {% for submission in submissions %}
