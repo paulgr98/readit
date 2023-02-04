@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from submissions.models import Submission
@@ -5,6 +6,9 @@ from .forms import SubmissionForm
 from users.models import ReaditUser
 
 def create_or_edit_submission(request, submission_id):
+    if not request.user.is_authenticated:
+        return render(request, '..\\templates\public\\forbidden.html')
+
     if submission_id != 0:
         try:
             submission = Submission.objects.get(id=submission_id)
@@ -14,13 +18,9 @@ def create_or_edit_submission(request, submission_id):
             return render(request, '..\\templates\public\\not-found.html')
 
     if request.method == 'POST':
-        
         form = SubmissionForm(request.POST)
-        print("post")
         if form.is_valid():
-            print("valid")
             author = ReaditUser.objects.get(id=request.user.id)      
-            print("bsave")
             if submission_id == 0:
                 submission = Submission()
             submission.title = form.cleaned_data['title']
@@ -29,7 +29,6 @@ def create_or_edit_submission(request, submission_id):
             submission.author = author
             submission.subreadit = form.cleaned_data['subreadit']
             submission.save()
-            print("save")
 
             return redirect('/')
     else:
@@ -42,8 +41,9 @@ def create_or_edit_submission(request, submission_id):
             })
         else:
             form = SubmissionForm()
-
-    return render(request, '..\\templates\public\\create-or-edit-submission.html', {'form': form})
+    
+    return render(request, '..\\templates\public\\create-or-edit-submission.html',
+                   {'form': form, 'action_name': 'Create' if submission_id == 0 else 'Edit'})
 
 def delete_submission(request):
     try:
