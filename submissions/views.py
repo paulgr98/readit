@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from submissions.models import Submission
 from .forms import SubmissionForm
@@ -43,3 +44,15 @@ def create_or_edit_submission(request, submission_id):
             form = SubmissionForm()
 
     return render(request, '..\\templates\public\\create-or-edit-submission.html', {'form': form})
+
+def delete_submission(request):
+    try:
+        submission = Submission.objects.get(id=request.POST['submission_id'])
+        print('user id' ,request.user.id)
+        if submission.author.id != request.user.id:
+            return render(request, '..\\templates\public\\forbidden.html')
+        submission.delete()
+    except:
+        return render(request, '..\\templates\public\\not-found.html')
+
+    return HttpResponse(status=200)

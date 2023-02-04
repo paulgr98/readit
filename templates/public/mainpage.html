@@ -6,6 +6,7 @@
 
 <script src="{% static '/js/common.js' %}"></script>
 <script src="{% static '/js/votes.js' %}"></script>
+<script src="{% static '/js/submissions.js' %}"></script>
 
 {% if request.user.is_authenticated %}
     <div class="d-flex justify-content-center px-4 mt-3">
@@ -51,10 +52,18 @@
                                 Comments
                             </a>
                             {% if submission.author.id == request.user.id %}
-                                <a href="/submit/{{ submission.id }}" class="btn btn-primary btn-sm">
+                                <a href="/submit/{{ submission.id }}" class="btn btn-primary btn-sm me-2">
                                     <i class="far fa-edit"></i>
                                     Edit
                                 </a>
+                                <a onclick="deleteSubmission({{ submission.id }})" class="btn btn-danger btn-sm">
+                                    <i class="far fa-trash-alt"></i>
+                                    Delete
+                                </a>
+                                <form class="visually-hidden" id="delete-submission-form-{{ submission.id }}" method="post">
+                                    {% csrf_token %}
+                                    <input type="text" name="submission_id" value="{{ submission.id }}" />
+                                </form>
                             {% endif %}
                         </div>
                     </div>
