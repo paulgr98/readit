@@ -4,73 +4,38 @@
 
 {% block content %}
 
-<div class="card-columns">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                <div class="card my-3">
-                    <div class="card-header text-center d-flex">
-                        <div class="col-2">
-                            <img src="{{ user.avatar_url }}" alt="avatar" class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
+<script src="{% static '/js/votes.js' %}"></script>
+
+<div>
+    <div class="card-columns">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card my-3">
+                        <div class="card-header text-center d-flex">
+                            <div class="col-2">
+                                <img src="{{ user.avatar_url }}" alt="avatar" class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
+                            </div>
+                            <div class="col-8 align-self-center">
+                                <h2>u/{{ user.user }}</h2>
+                            </div>
                         </div>
-                        <div class="col-8 align-self-center">
-                            <h2>u/{{ user.user }}</h2>
+                        <div class="card-body">
+                            <p>{{ user.about_text }}</p>
+                            <p>Karma: {{ user.karma }}</p>
+                            <p>Cake day: {{ user.user.date_joined|date:"d.m.Y" }}</p>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <p>{{ user.about_text }}</p>
-                        <p>Karma: {{ user.karma }}</p>
-                        <p>Cake day: {{ user.user.date_joined|date:"d.m.Y" }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
-<script src="{% static '/js/votes.js' %}"></script>
-
-<div class="card-columns">
-    {% for submission in submissions %}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 mx-auto">
-                    <div class="card my-3">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <div>
-                                <form action="{% url 'upvote' submission.id %}" method="post">
-                                    {% csrf_token %}
-                                    <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow" onclick="upvote({{submission.id}})"></i>
-                                </form>
-                                <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
-                                <form action="{% url 'downvote' submission.id %}" method="post">
-                                    {% csrf_token %}
-                                    <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow" onclick="downvote({{submission.id}})"></i>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-text">
-                                <a href="/r/{{ submission.subreadit }}" class="text-decoration-none text-dark">r/{{ submission.subreadit }}</a> :
-                                <span class="card-subtitle mb-2 text-muted">u/{{ submission.author }}</span> :
-                                <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
-                            </h6>
-                            <h5 class="card-title">{{ submission.title }}</h5>
-                            <p class="card-text">{{ submission.text }}</p>
-                            <img src="{{ submission.image_url }}" alt="" class="img-fluid">
-                        </div>
-                        <div class="card-footer d-flex align-items-center">
-                            <a href="/{{ submission.id }}/comments" class="btn btn-secondary btn-sm">
-                                <i class="fas fa-comment"></i>
-                                Comments
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+    
+    <div class="card-columns">
+        {% for submission in submissions %}
+            {% include './submission-card.html' with submission=submission %}
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

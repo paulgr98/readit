@@ -34,43 +34,7 @@
 
 <div class="card-columns">
     {% for submission in submissions %}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 mx-auto">
-                    <div class="card my-3">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <div>
-                                <form action="{% url 'upvote' submission.id %}" method="post">
-                                    {% csrf_token %}
-                                    <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow" onclick="upvote({{submission.id}})"></i>
-                                </form>
-                                <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
-                                <form action="{% url 'downvote' submission.id %}" method="post">
-                                    {% csrf_token %}
-                                    <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow" onclick="downvote({{submission.id}})"></i>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-text">
-                                r/{{ submission.subreadit }} :
-                                <a href="/user/{{ submission.author }}" class="card-subtitle mb-2 text-decoration-none text-dark">u/{{ submission.author }}</a> :
-                                <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
-                            </h6>
-                            <h5 class="card-title">{{ submission.title }}</h5>
-                            <p class="card-text">{{ submission.text }}</p>
-                            <img src="{{ submission.image_url }}" alt="" class="img-fluid">
-                        </div>
-                        <div class="card-footer d-flex align-items-center">
-                            <a href="/{{ submission.id }}/comments" class="btn btn-secondary btn-sm">
-                                <i class="fas fa-comment"></i>
-                                Comments
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% include './submission-card.html' with submission=submission %}
     {% endfor %}
 </div>
 

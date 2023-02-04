@@ -1,0 +1,74 @@
+{% block content %}
+{% load humanize %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card my-2">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div>
+                        <form action="{% url 'upvote' submission.id %}" method="post">
+                            {% csrf_token %}
+                            <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow" onclick="upvote({{submission.id}})"></i>
+                        </form>
+                        <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
+                        <form action="{% url 'downvote' submission.id %}" method="post">
+                            {% csrf_token %}
+                            <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow" onclick="downvote({{submission.id}})"></i>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-text">
+                        <a href="/r/{{ submission.subreadit }}" class="text-decoration-none text-dark">r/{{ submission.subreadit }}</a> :
+                        <a href="/user/{{ submission.author }}" class="card-subtitle mb-2 text-decoration-none text-dark">u/{{ submission.author }}</a> :
+                        <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
+                    </h6>
+                    <h5 class="card-title">{{ submission.title }}</h5>
+                    <p class="card-text">{{ submission.text }}</p>
+                    <img src="{{ submission.image_url }}" alt="" class="img-fluid">
+                </div>
+                <div class="card-footer d-flex align-items-center">
+                    {% if not comments %}
+                        <a href="/{{ submission.id }}/comments" class="btn btn-secondary btn-sm me-2">
+                            <i class="fas fa-comment"></i>
+                            Comments
+                        </a>
+                    {% endif %}
+                    {% if submission.author.id == request.user.id %}
+                        <a href="/submit/{{ submission.id }}" class="btn btn-primary btn-sm me-2">
+                            <i class="far fa-edit"></i>
+                            Edit
+                        </a>
+                        <a onclick="deleteSubmission({{ submission.id }})" class="btn btn-danger btn-sm">
+                            <i class="far fa-trash-alt"></i>
+                            Delete
+                        </a>
+                        <form class="visually-hidden" id="delete-submission-form-{{ submission.id }}" method="post">
+                            {% csrf_token %}
+                            <input type="text" name="submission_id" value="{{ submission.id }}" />
+                        </form>
+                    {% endif %}
+                </div>
+                <div>
+                    {% for comment in comments %}
+                        <div class="card">
+                            <div class="media my-3">
+                                <img src="{{ comment.user.avatar_url }}" alt="avatar" class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
+                                <div class="media-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mt-0">{{ comment.user }}</h5>
+                                        <span class="text-muted">{{ comment.created_at|naturaltime }}</span>
+                                    </div>
+                                    <p>{{ comment.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
