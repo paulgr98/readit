@@ -18,7 +18,7 @@ from django.urls import path
 from . import views
 from subreadits import views as sub_views
 from users import views as user_views
-from submissions.views import create_submission
+from submissions import views as submission_views
 
 urlpatterns = [
     path('upvote/<submission_id>/', views.upvote, name='upvote'),
@@ -28,8 +28,8 @@ urlpatterns = [
     path('r/<str:name>/', sub_views.subreadit_view, name='subreadit'),
     path('user/<str:username>/', user_views.profile_view, name='profile'),
     path('', views.main_page_view, name="mainpage"),
-    path('submit', create_submission, name='submit'),
+    path('submit/<int:submission_id>', submission_views.create_or_edit_submission, name='create_or_edit_submission'),
     path('sign-in', user_views.sign_in, name='sign-in'),
     path('sign-out', user_views.sign_out, name='sign-out'),
-    path('sign-up', user_views.sign_up, name='sign-up')
+    path('sign-up', user_views.sign_up, name='sign-up'),
 ]

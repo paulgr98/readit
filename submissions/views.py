@@ -3,24 +3,43 @@ from submissions.models import Submission
 from .forms import SubmissionForm
 from users.models import ReaditUser
 
-def create_submission(request):
+def create_or_edit_submission(request, submission_id):
+    if submission_id != 0:
+        try:
+            submission = Submission.objects.get(id=submission_id)
+            if submission.author.id != request.user.id:
+                return render(request, '..\\templates\public\\forbidden.html')
+        except:
+            return render(request, '..\\templates\public\\not-found.html')
+
     if request.method == 'POST':
+        
         form = SubmissionForm(request.POST)
+        print("post")
         if form.is_valid():
-            # hardcoded until log in will be implemented
-            author = ReaditUser.objects.get(id=100)
-            #
-                        
-            submission = Submission()
+            print("valid")
+            author = ReaditUser.objects.get(id=request.user.id)      
+            print("bsave")
+            if submission_id == 0:
+                submission = Submission()
             submission.title = form.cleaned_data['title']
             submission.text = form.cleaned_data['text']
             submission.image_url = form.cleaned_data['image_url']
             submission.author = author
             submission.subreadit = form.cleaned_data['subreadit']
             submission.save()
+            print("save")
 
             return redirect('/')
     else:
-        form = SubmissionForm()
+        if submission_id != 0:
+            form = SubmissionForm(initial={
+                'title': submission.title,
+                'text': submission.text,
+                'image_url': submission.image_url,
+                'subreadit': submission.subreadit
+            })
+        else:
+            form = SubmissionForm()
 
-    return render(request, 'create-submission.html', {'form': form})
+    return render(request, '..\\templates\public\\create-or-edit-submission.html', {'form': form})
