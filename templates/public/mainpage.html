@@ -7,21 +7,51 @@
 <script src="{% static '/js/votes.js' %}"></script>
 <script src="{% static '/js/submissions.js' %}"></script>
 
-<div>
-    {% if request.user.is_authenticated %}
-        <div class="d-flex justify-content-center px-4 mt-3">
-            <div class="d-flex col-6 p-2 bg-white create-submission-card">
-                <img class="create-post-avatar me-2" src="{{ readit_user.avatar_url }}" />
-                <input id="create-submission-card-input" class="form-control w-100" type="text" placeholder="Create Post" />
+<div class="d-flex justify-content-center mt-3">
+    <div class="col-6 me-3">
+        {% if request.user.is_authenticated %}
+            <div class="d-flex justify-content-center px-3 mb-3">
+                <div class="d-flex col-12 p-2 bg-white create-submission-card">
+                    <img class="create-post-avatar me-2" src="{{ readit_user.avatar_url }}" />
+                    <input id="create-submission-card-input" class="form-control w-100" type="text" placeholder="Create Post" />
+                </div>
             </div>
+        {% endif %}
+    
+        <div>
+            {% for submission in submissions %}
+                {% include './submission-card.html' with submission=submission %}
+            {% endfor %}
         </div>
-    {% endif %}
-
-    <div class="mt-1">
-        {% for submission in submissions %}
-            {% include './submission-card.html' with submission=submission %}
-        {% endfor %}
+    </div>
+    <div class="col-3">
+        <div class="bg-white p-3 rounded-1 light-gray-border">
+            <div class="d-flex">
+                <img class="app-logo" src="{% static 'images/logo.png' %}" />
+                <h5 class="mt-1 ms-2">Home</h5>
+            </div>
+            <p>
+                Your personal Readit frontpage. Come here to check in with your favorite communities.
+            </p>
+            <hr />
+            {% if request.user.is_authenticated %}
+                <div class="d-flex justify-content-center">
+                    <a href="/submit/0" class="btn app-btn create-post-btn">Create Post</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="bg-white p-3 rounded-1 mt-3 light-gray-border">
+            <div>
+                <a class="footer-link me-3" href="#"><small>User Agreement</small></a><a class="footer-link" href="#"><small>Content Policy</small></a>
+            </div>
+            <div>
+                <a class="footer-link me-3" href="#"><small>Privacy Policy</small></a><a class="footer-link" href="#"><small>Moderator Code of Conduct</small></a>
+            </div>
+            <hr />
+            <small>Readit Inc © 2023. All rights reserved</small>
+        </div>
     </div>
 </div>
+
 
 {% endblock %}

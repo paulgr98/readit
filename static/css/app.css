@@ -244,3 +244,31 @@ h6{
 html {
     overflow-y:scroll;
 }
+
+.create-post-btn {
+    background-color: #0079d3;
+    color: white;
+    border: 1px solid #0079d3;
+    font-weight: bold;
+    height: 38px;
+    width: 250px;
+}
+
+.create-post-btn:hover {
+    background-color: #0f97ff;
+    color: white;
+}
+
+.light-gray-border {
+    border: 1px solid #d2d2d2 !important;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: black;
+}
+
+.modal-open[style] {
+    padding-right: 0px !important;
+}
+   
