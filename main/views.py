@@ -51,5 +51,9 @@ def downvote(request, submission_id):
 def comments_view(request, submission_id):
     submission = Submission.objects.get(id=submission_id)
     comments = Comment.objects.filter(submission=submission)
-    context = {'submission': submission, 'comments': comments}
+    has_user_commented = False
+    if request.user.is_authenticated:
+        has_user_commented = any([comment.user.id == request.user.id for comment in comments])
+
+    context = {'submission': submission, 'comments': comments, 'has_user_commented': has_user_commented}
     return render(request, 'public/comments.html', context)

@@ -19,6 +19,7 @@ from . import views
 from subreadits import views as sub_views
 from users import views as user_views
 from submissions import views as submission_views
+from comments import views as comment_views
 
 urlpatterns = [
     path('upvote/<submission_id>/', views.upvote, name='upvote'),
@@ -33,4 +34,5 @@ urlpatterns = [
     path('sign-out', user_views.sign_out, name='sign-out'),
     path('sign-up', user_views.sign_up, name='sign-up'),
     path('delete-submission', submission_views.delete_submission, name='delete_submission'),
+    path('create-comment/<int:submission_id>', comment_views.create_comment, name='create_comment'),
 ]

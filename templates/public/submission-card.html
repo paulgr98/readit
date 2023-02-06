@@ -50,6 +50,22 @@
                         </form>
                     {% endif %}
                 </div>
+                {% if request.user.is_authenticated and comments and not has_user_commented %}
+                    <div class="p-3">
+                        <form>
+                            <div class="form-group">
+                                <label for="comment">Comment as <a class="text-decoration-none" href="/user/{{ request.user.username }}">{{ request.user.username }}</a></label>
+                                <textarea id="comment-input-content" class="form-control create-submission-input" name="content" rows="3"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-end mt-2">
+                                <button onclick="postComment({{ submission.id }})" type="button" class="btn app-btn create-comment-btn">Comment</button>
+                            </div>
+                            <div>
+                                <p id="create-comment-error-message" class="text-danger" hidden></p>
+                            </div>
+                        </form>
+                    </div>
+                {% endif %}
                 <div>
                     {% for comment in comments %}
                         <div class="card">

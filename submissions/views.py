@@ -48,7 +48,6 @@ def create_or_edit_submission(request, submission_id):
 def delete_submission(request):
     try:
         submission = Submission.objects.get(id=request.POST['submission_id'])
-        print('user id' ,request.user.id)
         if submission.author.id != request.user.id:
             return render(request, '..\\templates\public\\forbidden.html')
         submission.delete()

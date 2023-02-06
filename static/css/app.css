@@ -289,4 +289,17 @@ html {
     background-color: #0f97ff;
     color: white;
 }
+
+.create-comment-btn {
+    background-color: #ff4500;
+    color: #ffffff;
+    border: 1px solid #ff4500;
+    font-weight: bold;
+    height: 38px;
+    width: 140px;
+}
+
+.create-comment-btn:hover {
+    background-color: #db3a00;
+}
    
