@@ -152,7 +152,8 @@ def generate_subreadits(subs: list[str]) -> list[Subreadit]:
         subreadit.id = i
         subreadit.name = subs[i - start_id]
         subreadit.description = gen.text()
-        subreadit.created_at = gen.date_time()
+        # dates from 10y to 5y ago
+        subreadit.created_at = gen.date_time_between(start_date='-10y', end_date='-5y')
         subreadit.owner_id = random.randint(100, 109)
         subreadits.append(subreadit)
     return subreadits
@@ -168,27 +169,33 @@ def add_subreadits_to_db(subreadits: list[Subreadit], cursor: sqlite3.Cursor):
 async def generate_submissions(number_of_submissions: int):
     submissions = []
 
+    subs = ['Polska', 'Polska_wpz', 'okkolegauposledzony', 'ProgrammerHumor']
+
+    # divide number of submissions by number of subs
+    number_of_submissions = int(number_of_submissions / len(subs))
+
     async with asyncpraw.Reddit(client_id=cfg.CLIENT_ID,
                                 client_secret=cfg.CLIENT_SECRET,
                                 user_agent=cfg.USER_AGENT) as reddit:
-        sub = await reddit.subreddit('ProgrammerHumor')
-        await sub.load()
-        posts = sub.hot(limit=number_of_submissions)
+        for n, sub_name in enumerate(subs):
+            sub = await reddit.subreddit(sub_name)
+            await sub.load()
+            posts = sub.hot(limit=number_of_submissions)
 
-        start_id = 100
-        async for i, post in a.enumerate(posts, start=start_id):
-            submission = Submission()
-            submission.id = i
-            submission.title = replace_bad_chars(post.title)
-            submission.upvotes = post.score
-            submission.downvotes = int(post.score / post.upvote_ratio - post.score)
-            submission.image_url = post.url
-            submission.created_at = dt.datetime.fromtimestamp(post.created_utc)
-            submission.author_id = random.randint(100, 109)
-            submission.subreadit_id = 103
-            submission.text = replace_bad_chars(post.selftext)
+            start_id = 100
+            async for i, post in a.enumerate(posts, start=start_id):
+                submission = Submission()
+                submission.id = i
+                submission.title = replace_bad_chars(post.title)
+                submission.upvotes = post.score
+                submission.downvotes = int(post.score / post.upvote_ratio - post.score)
+                submission.image_url = post.url
+                submission.created_at = dt.datetime.fromtimestamp(post.created_utc)
+                submission.author_id = random.randint(100, 109)
+                submission.subreadit_id = start_id + n
+                submission.text = replace_bad_chars(post.selftext)
 
-            submissions.append(submission)
+                submissions.append(submission)
 
     return submissions
 
