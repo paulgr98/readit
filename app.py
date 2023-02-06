@@ -177,6 +177,7 @@ async def generate_submissions(number_of_submissions: int):
     async with asyncpraw.Reddit(client_id=cfg.CLIENT_ID,
                                 client_secret=cfg.CLIENT_SECRET,
                                 user_agent=cfg.USER_AGENT) as reddit:
+        current_post_id = 100
         for n, sub_name in enumerate(subs):
             sub = await reddit.subreddit(sub_name)
             await sub.load()
@@ -185,7 +186,7 @@ async def generate_submissions(number_of_submissions: int):
             start_id = 100
             async for i, post in a.enumerate(posts, start=start_id):
                 submission = Submission()
-                submission.id = i
+                submission.id = current_post_id
                 submission.title = replace_bad_chars(post.title)
                 submission.upvotes = post.score
                 submission.downvotes = int(post.score / post.upvote_ratio - post.score)
@@ -196,6 +197,7 @@ async def generate_submissions(number_of_submissions: int):
                 submission.text = replace_bad_chars(post.selftext)
 
                 submissions.append(submission)
+                current_post_id += 1
 
     return submissions
 
