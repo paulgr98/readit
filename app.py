@@ -76,7 +76,7 @@ async def generate_data(file_location):
         add_users_to_db(users, c)
         print("Users added to database")
 
-        subs = ['Polska', 'Polska_wpz', 'okkolegauposledzony', 'ProgrammerHumor']
+        subs = ['ProgrammerHumor', 'Polska', 'Polska_wpz', 'okkolegauposledzony']
         subreadits = generate_subreadits(subs)
         add_subreadits_to_db(subreadits, c)
         print("Subreadits added to database")
@@ -85,7 +85,7 @@ async def generate_data(file_location):
         add_submissions_to_db(submissions, c)
         print("Submission added to database")
 
-        comments = generate_n_comments_for_submissions(10, submissions)
+        comments = generate_comments_for_submissions(submissions)
         add_comments_to_db(comments, c)
         print("Comments added to database")
 
@@ -169,7 +169,7 @@ def add_subreadits_to_db(subreadits: list[Subreadit], cursor: sqlite3.Cursor):
 
 async def generate_submissions(number_of_submissions: int) -> list[Submission]:
     submissions = []
-    subs = ['Polska', 'Polska_wpz', 'okkolegauposledzony', 'ProgrammerHumor']
+    subs = ['ProgrammerHumor', 'Polska', 'Polska_wpz', 'okkolegauposledzony']
 
     # divide number of submissions by number of subs
     number_of_submissions = int(number_of_submissions / len(subs))
@@ -184,7 +184,8 @@ async def generate_submissions(number_of_submissions: int) -> list[Submission]:
             posts = sub.hot(limit=number_of_submissions)
 
             start_id = 100
-            async for i, post in a.enumerate(posts, start=start_id):
+            print(f"Getting submissions from r/{sub_name}...")
+            async for i, post in a.enumerate(posts):
                 submission = Submission()
                 submission.id = current_post_id
                 submission.title = replace_bad_chars(post.title)
@@ -196,8 +197,11 @@ async def generate_submissions(number_of_submissions: int) -> list[Submission]:
                 submission.subreadit_id = start_id + n
                 submission.text = replace_bad_chars(post.selftext)
 
-                comments = post.comments()
-                submission.comments = [comment.body for comment in comments if comment.body != '[deleted]']
+                comments = await post.comments()
+                await comments.replace_more(limit=None)
+                all_comments = comments.list()
+                submission.comments = [comment.body for comment in all_comments if comment.body != '[deleted]']
+                print(f"Progress: {i + 1}/{number_of_submissions}")
 
                 submissions.append(submission)
                 current_post_id += 1
@@ -208,7 +212,7 @@ async def generate_submissions(number_of_submissions: int) -> list[Submission]:
 def replace_bad_chars(text: str) -> str:
     text = text.replace("'", "")
     text = text.replace('"', "")
-    # text = text.encode('ascii', 'ignore').decode('ascii')
+    text = text.replace("\\", "")
     return text
 
 
@@ -221,20 +225,21 @@ def add_submissions_to_db(submissions: list[Submission], cursor: sqlite3.Cursor)
         cursor.execute(command)
 
 
-def generate_n_comments_for_submissions(num_of_comments: int, submissions: list[Submission]) -> list[Comment]:
+def generate_comments_for_submissions(submissions: list[Submission]) -> list[Comment]:
     gen = faker.Faker()
     comments = []
     comment_id = 100
     for sub in submissions:
-        for i in range(num_of_comments):
+        for com_content in sub.comments:
             comment = Comment()
             comment.id = comment_id
-            comment.created_at = gen.date_time()
+            # dates from 2 days ago to now
+            comment.created_at = gen.date_time_between(start_date='-2d', end_date='now')
             comment.upvotes = random.randint(0, 100)
             comment.downvotes = random.randint(0, 10)
             comment.submission_id = sub.id
             comment.user_id = random.randint(100, 109)
-            comment.content = sub.comments[i]
+            comment.content = replace_bad_chars(com_content)
 
             comments.append(comment)
             comment_id += 1
