@@ -196,7 +196,7 @@ async def generate_submissions(number_of_submissions: int) -> list[Submission]:
                 submission.subreadit_id = start_id + n
                 submission.text = replace_bad_chars(post.selftext)
 
-                comments = await post.comments()
+                comments = post.comments()
                 submission.comments = [comment.body for comment in comments if comment.body != '[deleted]']
 
                 submissions.append(submission)
