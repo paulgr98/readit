@@ -6,16 +6,47 @@
         <div class="col-12 mx-auto px-3">
             <div class="card mb-2">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    <div>
-                        <form action="{% url 'upvote' submission.id %}" method="post">
-                            {% csrf_token %}
-                            <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow" onclick="upvote({{submission.id}})"></i>
-                        </form>
-                        <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
-                        <form action="{% url 'downvote' submission.id %}" method="post">
-                            {% csrf_token %}
-                            <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow" onclick="downvote({{submission.id}})"></i>
-                        </form>
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        {% if request.user.is_authenticated %}
+                            <div class="d-flex flex-column align-items-start">
+                            {% if not has_upvoted %}
+                                <div>
+                                    <form action="{% url 'upvote' submission.id %}" method="post">
+                                        {% csrf_token %}
+                                        <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow" onclick="upvote({{submission.id}})"></i>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <div>
+                                     <form action="{% url 'upvote' submission.id %}" method="post">
+                                        {% csrf_token %}
+                                        <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow upvote-clicked" onclick="upvote({{submission.id}})"></i>
+                                    </form>
+                                </div>
+                            {% endif %}
+                            <div>
+                                <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
+                            </div>
+                            <div>
+                                <form action="{% url 'downvote' submission.id %}" method="post">
+                                    {% csrf_token %}
+                                    <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow" onclick="downvote({{submission.id}})"></i>
+                                </form>
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="d-flex flex-column align-items-start">
+                                <div>
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <div>
+                                    <span class="badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
+                                </div>
+                                <div>
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
