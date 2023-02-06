@@ -6,31 +6,38 @@
         <div class="col-12 mx-auto px-3">
             <div class="card mb-2">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    {% if request.user.is_authenticated %}
-                        <div>
-                            <form action="{% url 'upvote' submission.id %}" method="post">
-                                {% csrf_token %}
-                                <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow" onclick="upvote({{submission.id}})"></i>
-                            </form>
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        {% if request.user.is_authenticated %}
+                            {% if not has_upvoted %}
+                                <form action="{% url 'upvote' submission.id %}" method="post">
+                                    {% csrf_token %}
+                                    <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow" onclick="upvote({{submission.id}})"></i>
+                                </form>
+                            {% else %}
+                                 <form action="{% url 'upvote' submission.id %}" method="post">
+                                    {% csrf_token %}
+                                    <i class="upvote-arrow-{{submission.id}} fas fa-arrow-up upvote-arrow upvote-clicked" onclick="upvote({{submission.id}})"></i>
+                                </form>
+                            {% endif %}
                             <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
                             <form action="{% url 'downvote' submission.id %}" method="post">
                                 {% csrf_token %}
                                 <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow" onclick="downvote({{submission.id}})"></i>
                             </form>
-                        </div>
-                    {% else %}
-                        <div class="d-flex flex-column align-items-start">
-                            <div>
-                                <i class="fas fa-arrow-up"></i>
+                        {% else %}
+                            <div class="d-flex flex-column align-items-start">
+                                <div>
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <div>
+                                    <span class="badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
+                                </div>
+                                <div>
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
                             </div>
-                            <div>
-                                <span class="badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
-                            </div>
-                            <div>
-                                <i class="fas fa-arrow-down"></i>
-                            </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="card-body">
                     <h6 class="card-text">

@@ -5,6 +5,7 @@ from submissions.models import Submission
 from .forms import SubmissionForm
 from users.models import ReaditUser
 
+
 def create_or_edit_submission(request, submission_id):
     if not request.user.is_authenticated:
         return render(request, '..\\templates\public\\forbidden.html')
@@ -20,7 +21,7 @@ def create_or_edit_submission(request, submission_id):
     if request.method == 'POST':
         form = SubmissionForm(request.POST)
         if form.is_valid():
-            author = ReaditUser.objects.get(id=request.user.id)      
+            author = ReaditUser.objects.get(id=request.user.id)
             if submission_id == 0:
                 submission = Submission()
             submission.title = form.cleaned_data['title']
@@ -41,14 +42,15 @@ def create_or_edit_submission(request, submission_id):
             })
         else:
             form = SubmissionForm()
-    
+
     return render(request, '..\\templates\public\\create-or-edit-submission.html',
-                   {'form': form, 'action_name': 'Create' if submission_id == 0 else 'Edit'})
+                  {'form': form, 'action_name': 'Create' if submission_id == 0 else 'Edit'})
+
 
 def delete_submission(request):
     try:
         submission = Submission.objects.get(id=request.POST['submission_id'])
-        print('user id' ,request.user.id)
+        print('user id', request.user.id)
         if submission.author.id != request.user.id:
             return render(request, '..\\templates\public\\forbidden.html')
         submission.delete()
