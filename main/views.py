@@ -8,6 +8,7 @@ from users.models import ReaditUser
 
 def main_page_view(request):
     readit_user = None
+    has_upvoted = False
     try:
         readit_user = ReaditUser.objects.get(id=request.user.id)
         has_upvoted = Upvote.objects.filter(user=request.user, upvoted=True).exists()
