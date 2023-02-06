@@ -205,7 +205,7 @@ async def generate_submissions(number_of_submissions: int):
 def replace_bad_chars(text: str) -> str:
     text = text.replace("'", "")
     text = text.replace('"', "")
-    text = text.encode('ascii', 'ignore').decode('ascii')
+    # text = text.encode('ascii', 'ignore').decode('ascii')
     return text
 
 
