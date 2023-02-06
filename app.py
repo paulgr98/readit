@@ -54,6 +54,7 @@ class Submission(object):
         self.author_id = None
         self.subreadit_id = None
         self.text = None
+        self.comments = []
 
 
 class Comment(object):
@@ -166,9 +167,8 @@ def add_subreadits_to_db(subreadits: list[Subreadit], cursor: sqlite3.Cursor):
         cursor.execute(command)
 
 
-async def generate_submissions(number_of_submissions: int):
+async def generate_submissions(number_of_submissions: int) -> list[Submission]:
     submissions = []
-
     subs = ['Polska', 'Polska_wpz', 'okkolegauposledzony', 'ProgrammerHumor']
 
     # divide number of submissions by number of subs
@@ -195,6 +195,9 @@ async def generate_submissions(number_of_submissions: int):
                 submission.author_id = random.randint(100, 109)
                 submission.subreadit_id = start_id + n
                 submission.text = replace_bad_chars(post.selftext)
+
+                comments = await post.comments()
+                submission.comments = [comment.body for comment in comments if comment.body != '[deleted]']
 
                 submissions.append(submission)
                 current_post_id += 1
@@ -223,7 +226,7 @@ def generate_n_comments_for_submissions(num_of_comments: int, submissions: list[
     comments = []
     comment_id = 100
     for sub in submissions:
-        for _ in range(num_of_comments):
+        for i in range(num_of_comments):
             comment = Comment()
             comment.id = comment_id
             comment.created_at = gen.date_time()
@@ -231,7 +234,7 @@ def generate_n_comments_for_submissions(num_of_comments: int, submissions: list[
             comment.downvotes = random.randint(0, 10)
             comment.submission_id = sub.id
             comment.user_id = random.randint(100, 109)
-            comment.content = gen.text()
+            comment.content = sub.comments[i]
 
             comments.append(comment)
             comment_id += 1
