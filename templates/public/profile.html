@@ -15,7 +15,7 @@
                         <div class="card my-3">
                             <div class="card-header text-center d-flex">
                                 <div class="col-2">
-                                    <img src="{{ user.avatar_url }}" alt="avatar" class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
+                                    <img src="{% if readit_user.avatar_url %}{{readit_user.avatar_url}}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="avatar" class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
                                 </div>
                                 <div class="col-8 align-self-center">
                                     <h2>u/{{ user.user }}</h2>

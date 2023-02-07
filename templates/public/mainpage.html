@@ -11,7 +11,7 @@
         {% if request.user.is_authenticated %}
             <div class="d-flex justify-content-center px-3 mb-3">
                 <div class="d-flex col-12 p-2 bg-white create-submission-card">
-                    <img class="create-post-avatar me-2" src="{{ readit_user.avatar_url }}" />
+                    <img class="create-post-avatar me-2" src="{% if readit_user.avatar_url %}{{readit_user.avatar_url}}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" />
                     <input id="create-submission-card-input" class="form-control w-100" type="text" placeholder="Create Post" />
                 </div>
             </div>

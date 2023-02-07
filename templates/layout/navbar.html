@@ -48,7 +48,7 @@
                     data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                     {% if request.user.is_authenticated %}
                         <div class="d-flex w-100">
-                            <img class="user-avatar-small" src="{{ readit_user.avatar_url }}" />
+                            <img class="user-avatar-small" src="{% if readit_user.avatar_url %}{{readit_user.avatar_url}}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" />
                             <div class="me-5">
                                 <p class="username-small ms-1 fw-bold">{{ request.user.username }}</p>
                                 <p class="karma-small ms-1">{{ readit_user.karma }} karma</p>
