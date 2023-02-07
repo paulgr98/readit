@@ -26,6 +26,7 @@ urlpatterns = [
     path('upvote/<submission_id>/', views.upvote, name='upvote'),
     path('upvote_unclicked/<submission_id>/', views.upvote_unclicked, name='upvote_unclicked'),
     path('downvote/<submission_id>/', views.downvote, name='downvote'),
+    path('downvote_unclicked/<submission_id>/', views.downvote_unclicked, name='downvote_unclicked'),
     path('<int:submission_id>/comments/', views.comments_view, name='comments'),
     path('r/<str:name>/', subreadits_views.subreadit_view, name='subreadit'),
     path('user/<str:username>/', user_views.profile_view, name='profile'),

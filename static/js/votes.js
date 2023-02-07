@@ -50,6 +50,57 @@ function handle_upvote_unclick(args) {
         })
 }
 
+function handle_downvote_click(args) {
+    args.downvoteArrow.classList.add('downvote-clicked');
+    fetch('/downvote/' + args.submissionId + '/', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': args.csrftoken
+        },
+        body: JSON.stringify({
+            'submission_id': args.submissionId
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json()
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                let currentCount = parseInt(args.upvoteCountElement.textContent)
+                args.upvoteCountElement.textContent = `${currentCount - 1}`
+            }
+        })
+}
+
+function handle_downvote_unclick(args) {
+    fetch('/downvote_unclicked/' + args.submissionId + '/', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': args.csrftoken
+        },
+        body: JSON.stringify({
+            'submission_id': args.submissionId
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json()
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                let currentCount = parseInt(args.upvoteCountElement.textContent)
+                args.upvoteCountElement.textContent = `${currentCount + 1}`
+            }
+        })
+}
+
 function upvote(submissionId) {
     event.preventDefault();
     const csrftoken = document.querySelector("[name='csrfmiddlewaretoken']").value;
@@ -90,8 +141,20 @@ function downvote(submissionId) {
 
     if (downvoteArrow.classList.contains('downvote-clicked')) {
         downvoteArrow.classList.remove('downvote-clicked');
+        handle_downvote_unclick({
+                submissionId: submissionId,
+                upvoteArrow: upvoteArrow,
+                upvoteCountElement: upvoteCountElement,
+                csrftoken: csrftoken
+            })
     } else {
         downvoteArrow.classList.add('downvote-clicked');
+        handle_downvote_click({
+                submissionId: submissionId,
+                upvoteArrow: upvoteArrow,
+                upvoteCountElement: upvoteCountElement,
+                csrftoken: csrftoken
+            })
     }
 
     if (upvoteArrow.classList.contains('upvote-clicked')) {

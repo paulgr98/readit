@@ -16,9 +16,13 @@ class Submission(models.Model):
     image_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     upvote_set = models.ManyToManyField(User, through='Upvote', related_name='upvote_set')
+    downvote_set = models.ManyToManyField(User, through='Downvote', related_name='downvote_set')
 
     def has_upvoted(self, user):
         return self.upvote_set.filter(user=user).exists()
+
+    def has_downvoted(self, user):
+        return self.downvote_set.filter(user=user).exists()
 
     def __str__(self):
         return self.title
@@ -28,3 +32,9 @@ class Upvote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='upvote_by_user')
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name='upvotes_set')
     upvoted = models.BooleanField(default=False)
+
+
+class Downvote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='downvote_by_user')
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name='downvotes_set')
+    downvoted = models.BooleanField(default=False)

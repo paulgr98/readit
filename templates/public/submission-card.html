@@ -28,12 +28,21 @@
                             <div>
                                 <span class="upvote-counter-{{ submission.id }} badge badge-primary badge-pill text-dark">{{ submission.upvotes }}</span>
                             </div>
+                            {% if not has_downvoted %}
                             <div>
                                 <form action="{% url 'downvote' submission.id %}" method="post">
                                     {% csrf_token %}
                                     <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow" onclick="downvote({{submission.id}})"></i>
                                 </form>
                             </div>
+                            {% else %}
+                                <div>
+                                    <form action="{% url 'downvote' submission.id %}" method="post">
+                                        {% csrf_token %}
+                                        <i class="downvote-arrow-{{submission.id}} fas fa-arrow-down downvote-arrow downvote-clicked" onclick="downvote({{submission.id}})"></i>
+                                    </form>
+                                </div>
+                            {% endif %}
                         </div>
                         {% else %}
                             <div class="d-flex flex-column align-items-start">
