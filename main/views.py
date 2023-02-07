@@ -20,11 +20,12 @@ def main_page_view(request):
 
     submissions = Submission.objects.all()
     for submission in submissions:
-        text_html = markdown.markdown(submission.text)
-        submission.text_html = text_html
-        sub = Submission.objects.get(id=submission.id)
-        sub.text_html = text_html
-        sub.save()
+        if not submission.text_html:
+            text_html = markdown.markdown(submission.text)
+            submission.text_html = text_html
+            sub = Submission.objects.get(id=submission.id)
+            sub.text_html = text_html
+            sub.save()
 
     context = {
         'submissions': submissions,
@@ -128,8 +129,12 @@ def comments_view(request, submission_id):
         comments = Comment.objects.filter(submission=submission)
 
         for comment in comments:
-            content_html = markdown.markdown(comment.content)
-            comment.content_html = content_html
+            if not comment.content_html:
+                content_html = markdown.markdown(comment.content)
+                comment.content_html = content_html
+                comm = Comment.objects.get(id=comment.id)
+                comm.content_html = content_html
+                comm.save()
 
         has_user_commented = False
         if request.user.is_authenticated:
