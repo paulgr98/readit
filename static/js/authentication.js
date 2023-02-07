@@ -7,10 +7,10 @@ $(document).ready(function () {
             type: 'POST',
             data: signInForm.serialize(),
             success: function() {
-                window.location.href = '/';
-                signInForm[0].reset();
                 signInError.attr('hidden', true);
                 signInError.text('');
+                signInForm[0].reset();
+                location.reload();
             },
             error: function() {
                 signInError.attr('hidden', false);
@@ -29,7 +29,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: $('#sign-out-form').serialize(),
                 success: function () {
-                    window.location.href = '/';
+                    location.reload();
                 },
                 error: function() {
                     alert('Error while trying to sign out.');
@@ -58,11 +58,11 @@ $(document).ready(function () {
             type: 'POST',
             data: signUpForm.serialize(),
             success: function() {
-                signUpForm[0].reset();
                 signUpError.attr('hidden', true);
                 signUpError.text('');
                 confirm('Readit account created successfully. Now you can sign in.');
-                window.location.href = '/';
+                signUpForm[0].reset();
+                location.reload();
             },
             error: function(xhr) {
                 signUpError.attr('hidden', false);
@@ -70,4 +70,12 @@ $(document).ready(function () {
             }
         })
     });
+});
+
+$(document).on('hide.bs.modal','#sign-up-modal', function () {
+    $('#sign-up-form')[0].reset();
+});
+
+$(document).on('hide.bs.modal','#sign-in-modal', function () {
+    $('#sign-in-form')[0].reset();
 });
