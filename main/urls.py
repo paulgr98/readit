@@ -35,4 +35,5 @@ urlpatterns = [
     path('sign-up', user_views.sign_up, name='sign-up'),
     path('delete-submission', submission_views.delete_submission, name='delete_submission'),
     path('create-comment/<int:submission_id>', comment_views.create_comment, name='create_comment'),
+    path('delete-comment', comment_views.delete_comment, name='delete_comment'),
 ]

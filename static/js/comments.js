@@ -25,3 +25,22 @@ function postComment(submission_id) {
             }
         });
 }
+
+function deleteComment(comment_id) {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const choice = confirm('Are you sure you want to delete your comment?');
+    if(choice) {
+        $.ajax({
+            url: `/delete-comment`,
+            type: 'POST',
+            headers: { "X-CSRFToken": csrftoken },
+            data: { comment_id: comment_id },
+            success: function() {
+                location.reload();
+            },
+            error: function(xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+}

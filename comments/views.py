@@ -23,3 +23,17 @@ def create_comment(request, submission_id):
     comment.save()
 
     return HttpResponse(status=200)
+
+def delete_comment(request):
+    comment = None
+    try:
+        comment = Comment.objects.get(id=request.POST.get('comment_id'))
+    except:
+        return HttpResponse(status=400, content="Comment does not exist")
+    
+    if comment.user.id != request.user.id:
+        return HttpResponse(status=400, content="User does not have permission to delete this comment")
+    
+    comment.delete()
+    
+    return HttpResponse(status=200)
