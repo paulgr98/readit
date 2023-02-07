@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from submissions.models import Submission, Upvote, Downvote
 from comments.models import Comment
 from users.models import ReaditUser
+import markdown
 
 
 def main_page_view(request):
@@ -18,6 +19,13 @@ def main_page_view(request):
         pass
 
     submissions = Submission.objects.all()
+    for submission in submissions:
+        text_html = markdown.markdown(submission.text)
+        submission.text_html = text_html
+        sub = Submission.objects.get(id=submission.id)
+        sub.text_html = text_html
+        sub.save()
+
     context = {
         'submissions': submissions,
         'readit_user': readit_user,
@@ -118,6 +126,11 @@ def comments_view(request, submission_id):
     try:
         submission = Submission.objects.get(id=submission_id)
         comments = Comment.objects.filter(submission=submission)
+
+        for comment in comments:
+            content_html = markdown.markdown(comment.content)
+            comment.content_html = content_html
+
         has_user_commented = False
         if request.user.is_authenticated:
             has_user_commented = any([comment.user.id == request.user.id for comment in comments])

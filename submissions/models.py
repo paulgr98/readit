@@ -17,6 +17,7 @@ class Submission(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     upvote_set = models.ManyToManyField(User, through='Upvote', related_name='upvote_set')
     downvote_set = models.ManyToManyField(User, through='Downvote', related_name='downvote_set')
+    text_html = models.TextField(blank=True, null=True)
 
     def has_upvoted(self, user):
         return self.upvote_set.filter(user=user).exists()

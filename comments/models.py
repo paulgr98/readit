@@ -12,3 +12,4 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
+    content_html = models.TextField(blank=True, null=True)

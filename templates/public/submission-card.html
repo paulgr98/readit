@@ -66,7 +66,8 @@
                         <span class="card-subtitle mb-2 text-muted">{{ submission.created_at|naturaltime }}</span>
                     </h6>
                     <h5 class="card-title">{{ submission.title }}</h5>
-                    <p class="card-text">{{ submission.text }}</p>
+                    <p class="card-text">{{ submission.text_html|default:''|safe }}</p>
+{#                    <p class="card-text">{{ submission.text}}</p>#}
                     <img src="{{ submission.image_url }}" alt="" class="img-fluid">
                 </div>
                 <div class="card-footer d-flex align-items-center">
@@ -117,7 +118,7 @@
                                         <h5 class="mt-0">{{ comment.user }}</h5>
                                         <span class="text-muted">{{ comment.created_at|naturaltime }}</span>
                                     </div>
-                                    <p>{{ comment.content }}</p>
+                                    <p>{{ comment.content_html|default:''|safe }}</p>
                                     {% if request.user.is_authenticated and comment.user.user == request.user %}
                                         <div>
                                             <button class="btn btn-danger btn-sm" onclick="deleteComment({{comment.id}})">Delete</button>
