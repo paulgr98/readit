@@ -25,6 +25,10 @@ def main_page_view(request):
     return render(request, 'public/mainpage.html', context)
 
 
+def custom_404_view(request, exception):
+    return render(request, 'public/not-found.html', status=404)
+
+
 def upvote(request, submission_id):
     if request.method == 'POST':
         submission = Submission.objects.get(id=submission_id)
@@ -68,11 +72,14 @@ def downvote(request, submission_id):
 
 
 def comments_view(request, submission_id):
-    submission = Submission.objects.get(id=submission_id)
-    comments = Comment.objects.filter(submission=submission)
-    has_user_commented = False
-    if request.user.is_authenticated:
-        has_user_commented = any([comment.user.id == request.user.id for comment in comments])
+    try:
+        submission = Submission.objects.get(id=submission_id)
+        comments = Comment.objects.filter(submission=submission)
+        has_user_commented = False
+        if request.user.is_authenticated:
+            has_user_commented = any([comment.user.id == request.user.id for comment in comments])
 
-    context = {'submission': submission, 'comments': comments, 'has_user_commented': has_user_commented}
-    return render(request, 'public/comments.html', context)
+        context = {'submission': submission, 'comments': comments, 'has_user_commented': has_user_commented}
+        return render(request, 'public/comments.html', context)
+    except:
+        return render(request, 'public/not-found.html')
