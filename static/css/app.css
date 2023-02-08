@@ -1,12 +1,25 @@
+.el1{
+    display:flex;
+}
+
+.rounded-circle{
+    margin: 0px 10px 10px 0px; 
+}
+
+.my-3{
+    padding: 20px;
+}
+
 .marg{
-padding-right: 5px !important;
+    padding-right: 5px !important;
+    padding-top: 10px !important;
 }
 
 .card{
     margin: 5px 5px 5px 5px;
-    padding: 10px 10px 10px 10px;
-    
+    padding: 10px 10px 10px 10px;    
 }
+
 .flex-column{
     align-items: center!important;
 
